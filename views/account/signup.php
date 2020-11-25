@@ -10,7 +10,7 @@
 	<?php echo $this->render('errors',array('errors' => $errors)); ?>
 	<?php endif; ?>
 
-	<?php echo $this->render('account/inouts', array(
+	<?php echo $this->render('account/inputs', array(
 		'user_name' => $user_name,
 		'password' => $password,
 	)); ?>

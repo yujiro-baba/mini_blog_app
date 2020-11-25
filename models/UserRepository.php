@@ -6,6 +6,7 @@ class UserRepository extends DbRepository {
 	public function insert($user_name, $password) {
 
 		$password = $this->hashPassword($password);
+	
 		$now = new DateTime();
 
 		$sql = "

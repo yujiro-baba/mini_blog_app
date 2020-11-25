@@ -2,6 +2,8 @@
 
 class StatusController extends Controller {
 	
+	protected $auth_actions = array('index','post');
+
 	//投稿データを扱う
 	public function indexAction() {
 

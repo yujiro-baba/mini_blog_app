@@ -2,6 +2,8 @@
 
 class AccountController extends Controller {
 
+	protected $auth_actions = array('account','signout');
+
 	//登録画面表示
 	public function signupAction() {
 
@@ -30,7 +32,7 @@ class AccountController extends Controller {
 
 		//トークンを取得し整合性をチェック
 		$token = $this->request->getPost('_token');
-		if($this->checkCsrfToken('account/signup', $token)) {
+		if(!$this->checkCsrfToken('account/signup', $token)) {
 			return $this->redirect('/account/signup');
 		}
 
@@ -82,7 +84,7 @@ class AccountController extends Controller {
 	}
 
 	//ログイン画面
-	public function sigininAction() {
+	public function signinAction() {
 
 		if($this->session->isAuthenticated()){
 			return $this->redirect('/account');
