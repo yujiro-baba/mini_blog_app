@@ -5,7 +5,7 @@ class UserRepository extends DbRepository {
 	//userテーブルのレコード新規作成
 	public function insert($user_name, $password) {
 
-		$password = $this->hashPassword($password);
+		//$password = $this->hashPassword($password);
 	
 		$now = new DateTime();
 
@@ -49,6 +49,19 @@ class UserRepository extends DbRepository {
 		}
 
 		return false;
+	}
+
+	public function fetchAllFollowByUserId($user_id) {
+
+		$sql = "
+			SELECT u.* 
+			FROM user u
+				LEFT JOIN following f ON f.following_id = u.id 
+			WHERE f.user_id = :user_id
+		";
+
+		return $this->fetchAll($sql, array(':user_id' => $user_id));
+
 	}
 
 

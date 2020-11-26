@@ -79,10 +79,26 @@ class StatusController extends Controller {
 		//ユーザーの投稿一覧を取得
 		$statuses = $this->db_manager->get('Status')
 			->fetchAllByUserId($user['id']);
-		
+
+		//フォロー状態を格納
+		$following = null;
+
+		//ログイン状態
+		if ($this->session->isAuthenticated()) {
+			//sessionからuserデータを取得
+			$my = $this->session->get('user');
+			//アクセスしている先の投稿が自身の投稿かどうかを確認
+			if ($my['id'] !== $user['id']) {
+				//フォローしているか確認
+				$following = $this->db_manager->get('Following')
+					->isFollowing($my['id'], $user['id']);
+			}
+		}	
 		return $this->render(array(
-			'user' => $user,
-			'statuses' => $statuses,
+			'user'		=> $user,
+			'statuses' 	=> $statuses,
+			'following' => $following,
+			'_token' 	=> $this->generateCsrfToken('account/follow'),
 		));
 	}
 
